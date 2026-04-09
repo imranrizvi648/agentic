@@ -17,41 +17,44 @@ const testimonials = [
 ];
 
 const TestimonialSection = () => {
+  // PRO HACK: Array ko 30 dafa copy kar diya hai! (10 reviews * 30 = 300 reviews)
+  // Ab user jitna marzi drag kare, list rukegi nahi aur circle ki tarah feel hogi.
+  const infiniteTestimonials = Array(30).fill(testimonials).flat();
+
   return (
     <section className="bg-black py-10 overflow-hidden relative min-h-[800px] flex flex-col justify-center">
       
       {/* ------------------- OPTIMIZED EARTH BACKGROUND ------------------- */}
-      {/* ------------------- OPTIMIZED EARTH BACKGROUND ------------------- */}
-<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center pointer-events-none z-0">
-  <div 
-    className="w-[60vw] h-[60vw] max-w-[1200px] max-h-[1200px] opacity-20"
-    style={{ 
-      animation: 'spin 100s linear infinite',
-      willChange: 'transform' // GPU acceleration fix
-    }}
-  >
-    <svg viewBox="0 0 200 200" className="w-full h-full">
-      <g fill="none" stroke="white" strokeWidth="0.3" strokeOpacity="0.4">
-        <circle cx="100" cy="100" r="90" />
-        <ellipse cx="100" cy="100" rx="90" ry="30" />
-        <ellipse cx="100" cy="100" rx="30" ry="90" />
-        <ellipse cx="100" cy="100" rx="90" ry="60" />
-        <ellipse cx="100" cy="100" rx="60" ry="90" />
-      </g>
-    </svg>
-  </div>
-  
-  {/* Glow fix */}
-  <div className="absolute w-[50%] h-[50%] bg-white/5 blur-[100px] rounded-full"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center pointer-events-none z-0">
+        <div 
+          className="w-[60vw] h-[60vw] max-w-[1200px] max-h-[1200px] opacity-20"
+          style={{ 
+            animation: 'spin 100s linear infinite',
+            willChange: 'transform' // GPU acceleration fix
+          }}
+        >
+          <svg viewBox="0 0 200 200" className="w-full h-full">
+            <g fill="none" stroke="white" strokeWidth="0.3" strokeOpacity="0.4">
+              <circle cx="100" cy="100" r="90" />
+              <ellipse cx="100" cy="100" rx="90" ry="30" />
+              <ellipse cx="100" cy="100" rx="30" ry="90" />
+              <ellipse cx="100" cy="100" rx="90" ry="60" />
+              <ellipse cx="100" cy="100" rx="60" ry="90" />
+            </g>
+          </svg>
+        </div>
+        
+        {/* Glow fix */}
+        <div className="absolute w-[50%] h-[50%] bg-white/5 blur-[100px] rounded-full"></div>
 
-  {/* Injected Animation Keyframes - Isko component ke bahar ya fragment mein rakhna */}
-  <style dangerouslySetInnerHTML={{ __html: `
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-  ` }} />
-</div>
+        {/* Injected Animation Keyframes */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+        ` }} />
+      </div>
 
       {/* ------------------- Top Header Section ------------------- */}
       <div className="flex flex-col items-center mb-20 px-6 relative z-10">
@@ -77,16 +80,17 @@ const TestimonialSection = () => {
         </div>
       </div>
 
-      {/* ------------------- Cards Section (Optimized Drag) ------------------- */}
+      {/* ------------------- Cards Section (Infinite Drag) ------------------- */}
       <motion.div 
         drag="x"
-        dragConstraints={{ right: 0, left: -2000 }} // Tightened constraints
+        // Constraints ko bhi usi hisaab se badha diya hai (-90000px tak allow kiya hai)
+        dragConstraints={{ right: 0, left: -90000 }} 
         dragElastic={0.1}
         className="flex items-center gap-0 px-20 cursor-grab active:cursor-grabbing relative z-10"
       >
-        {testimonials.map((item) => (
+        {infiniteTestimonials.map((item, index) => (
           <motion.div
-            key={item.id}
+            key={`${item.id}-${index}`}
             initial={{ rotate: item.rotate, y: item.y }}
             whileHover={{ 
               rotate: 0, 
@@ -120,13 +124,6 @@ const TestimonialSection = () => {
         ))}
       </motion.div>
 
-      {/* Adding the spin animation in a style tag for maximum performance */}
-      <style jsx global>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </section>
   );
 };
