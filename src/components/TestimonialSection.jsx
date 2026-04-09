@@ -22,12 +22,12 @@ const TestimonialSection = () => {
   const infiniteTestimonials = Array(30).fill(testimonials).flat();
 
   return (
-    <section className="bg-black py-10 overflow-hidden relative min-h-[800px] flex flex-col justify-center">
+    <section className="bg-black py-10 overflow-hidden relative min-h-200 flex flex-col justify-center">
       
       {/* ------------------- OPTIMIZED EARTH BACKGROUND ------------------- */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center pointer-events-none z-0">
         <div 
-          className="w-[60vw] h-[60vw] max-w-[1200px] max-h-[1200px] opacity-20"
+          className="w-[60vw] h-[60vw] max-w-300 max-h-300 opacity-20"
           style={{ 
             animation: 'spin 100s linear infinite',
             willChange: 'transform' // GPU acceleration fix
@@ -58,7 +58,7 @@ const TestimonialSection = () => {
 
       {/* ------------------- Top Header Section ------------------- */}
       <div className="flex flex-col items-center mb-20 px-6 relative z-10">
-        <h2 className="text-6xl md:text-6xl font-[900] text-white uppercase tracking-tighter mb-8 text-center leading-none">
+        <h2 className="text-6xl md:text-6xl font-black text-white uppercase tracking-tighter mb-8 text-center leading-none">
           Client Reviews
         </h2>
 
@@ -104,7 +104,7 @@ const TestimonialSection = () => {
             }}
             transition={{ type: "spring", stiffness: 200, damping: 50 }}
             className={`
-              relative min-w-[340px] h-[350px] p-10 flex flex-col justify-between 
+              relative min-w-85 h-87.5 p-10 flex flex-col justify-between 
               ${item.color} shadow-2xl rounded-sm
               -ml-20 first:ml-0 will-change-transform
             `}

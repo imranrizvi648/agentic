@@ -75,7 +75,7 @@ export default function ImageZoomSection() {
                   willChange: "transform, opacity, border-radius" 
                 }}
                 // aspect-[16/10] diya hai taake images screenshot ki tarah wide feel hon
-                className={`relative w-full aspect-[4/3] md:aspect-square overflow-hidden shadow-2xl ${
+                className={`relative w-full aspect-4/3 md:aspect-square overflow-hidden shadow-2xl ${
                   isCenterImage ? "origin-top" : "origin-center"
                 }`}
               >

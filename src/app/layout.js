@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
         <Navbar /> 
         
         {/* Main content yahan render hoga */}
-        <main className="flex-grow">
+        <main className="grow">
           {children}
         </main>
         <Footer/>

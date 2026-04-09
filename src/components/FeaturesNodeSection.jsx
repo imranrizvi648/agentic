@@ -84,17 +84,17 @@ export default function FeaturesNodeSection() {
         </div>
 
         {/* Node Layout - Desktop Only (Hidden on small screens) */}
-        <div className="hidden lg:flex items-center justify-center gap-2 relative max-w-[1100px] mx-auto">
+        <div className="hidden lg:flex items-center justify-center gap-2 relative max-w-275 mx-auto">
           
           {/* Left Cards */}
-          <div className="flex flex-col gap-6 z-10 w-[340px]">
+          <div className="flex flex-col gap-6 z-10 w-85">
             {leftFeatures.map((feature, i) => (
               <FeatureCard key={i} {...feature} />
             ))}
           </div>
 
           {/* Left SVG Connectors */}
-          <div className="w-[120px] h-[528px] relative z-0">
+          <div className="w-30 h-132 relative z-0">
             <svg className="w-full h-full absolute inset-0">
               {/* Coordinates are calculated perfectly based on 160px card height + 24px gap */}
               {/* Top Line */}
@@ -107,11 +107,11 @@ export default function FeaturesNodeSection() {
           </div>
 
           {/* Center Logo Node */}
-          <div className="relative z-20 flex-shrink-0">
+          <div className="relative z-20 shrink-0">
             {/* Soft background glowing shadow */}
-            <div className="absolute inset-0 bg-red-500 rounded-[32px] blur-2xl opacity-60"></div>
+            <div className="absolute inset-0 bg-red-500 rounded-4xl blur-2xl opacity-60"></div>
             {/* Center Box */}
-            <div className="relative w-32 h-32 bg-gradient-to-br from-[#1a194d] to-[#1a194d] rounded-[24px] shadow-xl border border-red-400/50 flex flex-col items-center justify-center text-white cursor-pointer hover:scale-105 transition-transform duration-300">
+            <div className="relative w-32 h-32 bg-linear-to-br from-[#1a194d] to-[#1a194d] rounded-3xl shadow-xl border border-red-400/50 flex flex-col items-center justify-center text-white cursor-pointer hover:scale-105 transition-transform duration-300">
               {/* Custom Aigocy Icon (Interlocking circles) */}
               <div className="flex -space-x-2 mb-2">
                 <div className="w-8 h-8 rounded-full border-[3px] border-white"></div>
@@ -122,7 +122,7 @@ export default function FeaturesNodeSection() {
           </div>
 
           {/* Right SVG Connectors */}
-          <div className="w-[120px] h-[528px] relative z-0">
+          <div className="w-30 h-132 relative z-0">
             <svg className="w-full h-full absolute inset-0">
               {/* Top Line */}
               <AnimatedLine d="M 0 264 L 50 264 Q 60 264 60 254 L 60 90 Q 60 80 70 80 L 120 80" delay={0.6} />
@@ -134,7 +134,7 @@ export default function FeaturesNodeSection() {
           </div>
 
           {/* Right Cards */}
-          <div className="flex flex-col gap-6 z-10 w-[340px]">
+          <div className="flex flex-col gap-6 z-10 w-85">
             {rightFeatures.map((feature, i) => (
               <FeatureCard key={i} {...feature} />
             ))}
@@ -157,7 +157,7 @@ export default function FeaturesNodeSection() {
 // --- Card Component ---
 function FeatureCard({ title, desc, icon: Icon }) {
   return (
-    <div className="bg-white rounded-[20px] p-6 h-[160px] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow duration-300 flex flex-col justify-center">
+    <div className="bg-white rounded-[20px] p-6 h-40 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow duration-300 flex flex-col justify-center">
       <div className="w-10 h-10 rounded-xl bg-[#111] flex items-center justify-center text-white mb-4">
         <Icon size={18} strokeWidth={2.5} />
       </div>

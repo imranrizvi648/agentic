@@ -83,8 +83,8 @@ export default function Navbar() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="absolute -top-[1px] -left-[1px] w-2 h-2 border-t-2 border-l-2 border-white" />
-                    <div className="absolute -bottom-[1px] -right-[1px] w-2 h-2 border-b-2 border-r-2 border-white" />
+                    <div className="absolute -top-px -left-px w-2 h-2 border-t-2 border-l-2 border-white" />
+                    <div className="absolute -bottom-px -right-px w-2 h-2 border-b-2 border-r-2 border-white" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -124,7 +124,7 @@ export default function Navbar() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="absolute top-[120%] left-0 min-w-[180px] bg-white rounded-lg py-4 shadow-xl overflow-hidden"
+                  className="absolute top-[120%] left-0 min-w-45 bg-white rounded-lg py-4 shadow-xl overflow-hidden"
                 >
                   {item.subItems.map((sub) => (
                     <div
