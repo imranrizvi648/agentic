@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 // AI Themed Images
 const images = [
   "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200", // 1. Top Left (AI Brain/Tech)
-  "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=2000", // 2. Top Center (THE ZOOMING IMAGE - Abstract Data)
+  "https://images.unsplash.com/photo-1674027444485-cec3da58eef4?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // 2. Top Center (THE ZOOMING IMAGE - Abstract Data)
   "https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=1200", // 3. Top Right (Robotic Arm/Automation)
   "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200", // 4. Bottom Left (Code/Matrix)
   "https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=1200", // 5. Bottom Center (Robot)
