@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 // AI Themed Images
 const images = [
@@ -22,20 +22,32 @@ export default function ImageZoomSection() {
     offset: ["start start", "end end"],
   });
 
+  // --- THE MAGIC FIX: useSpring ---
+  // Ye raw scroll values ko smooth kar dega taake animation milky smooth feel ho
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   // --- Animations for the Center Image (Index 1) ---
-  // Scale adjusted for full-width grid. 3.5x is usually enough to cover the screen from a 3-column layout.
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 3.5]);
+  // Scale adjusted for full-width grid.
+  const scale = useTransform(smoothProgress, [0, 1], [1, 3.5]);
   
   // Isko thoda aur center mein laane ke liye Y-axis movement
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
+  const y = useTransform(smoothProgress, [0, 1], ["0%", "12%"]);
   
   // Jab full screen ho jaye to edges sharp ho jayein
-  const borderRadius = useTransform(scrollYProgress, [0, 0.8, 1], ["12px", "6px", "0px"]);
+  const borderRadius = useTransform(smoothProgress, [0, 0.8, 1], ["12px", "6px", "0px"]);
 
   // --- Animations for the Other 5 Images ---
   // Baki sab fade out aur thode chote ho jayenge depth create karne ke liye
-  const othersOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
-  const othersScale = useTransform(scrollYProgress, [0, 0.4], [1, 0.85]);
+  const othersOpacity = useTransform(smoothProgress, [0, 0.4], [1, 0]);
+  const othersScale = useTransform(smoothProgress, [0, 0.4], [1, 0.85]);
+
+  // --- Animations for Text Overlay ---
+  const textOpacity = useTransform(smoothProgress, [0.75, 1], [0, 1]);
+  const textY = useTransform(smoothProgress, [0.75, 1], [30, 0]);
 
   return (
     // Height 300vh taake scroll lamba ho aur animation smooth feel ho
@@ -59,6 +71,8 @@ export default function ImageZoomSection() {
                   opacity: isCenterImage ? 1 : othersOpacity,
                   borderRadius: isCenterImage ? borderRadius : "2px",
                   zIndex: isCenterImage ? 50 : 10,
+                  // Performance Booster: Browser ko GPU rendering ke liye ready karta hai
+                  willChange: "transform, opacity, border-radius" 
                 }}
                 // aspect-[16/10] diya hai taake images screenshot ki tarah wide feel hon
                 className={`relative w-full aspect-[4/3] md:aspect-square overflow-hidden shadow-2xl ${
@@ -68,12 +82,14 @@ export default function ImageZoomSection() {
                 <img
                   src={src}
                   alt={`AI Gallery Image ${index + 1}`}
-                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  // Transform gpu acceleration image tag pe bhi zaroori hai
+                  className="w-full h-full object-cover transform-gpu"
                 />
                 
                 {/* Dark overlay for non-active images taake center image pop kare */}
                 {!isCenterImage && (
-                  <div className="absolute inset-0" />
+                  <div className="absolute inset-0 bg-black/20" />
                 )}
               </motion.div>
             );
@@ -83,8 +99,9 @@ export default function ImageZoomSection() {
         {/* Text Overlay - Updated for AI Theme */}
         <motion.div 
           style={{ 
-            opacity: useTransform(scrollYProgress, [0.75, 1], [0, 1]),
-            y: useTransform(scrollYProgress, [0.75, 1], [30, 0])
+            opacity: textOpacity,
+            y: textY,
+            willChange: "transform, opacity"
           }}
           className="absolute inset-0 flex flex-col items-center justify-center z-50 pointer-events-none"
         >

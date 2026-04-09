@@ -6,7 +6,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 const PRIMARY = "#1a194d";
 const ACCENT  = "#625eff";
 
-
 const collaborators = [
   { id: 1,  name: "Stoli",      src: null },
   { id: 2,  name: "Red Cross",  src: null },
@@ -26,7 +25,7 @@ const collaborators = [
 const ROW_1 = [...collaborators.slice(0, 6), ...collaborators.slice(0, 6), ...collaborators.slice(0, 6)];
 const ROW_2 = [...collaborators.slice(6, 12), ...collaborators.slice(6, 12), ...collaborators.slice(6, 12)];
 
-// ─── VIP Sharp Logo Card ──────────────────────────────────────────────────────
+// ─── VIP Glass Door Logo Card ────────────────────────────────────────────────
 function LogoCard({ collab }) {
   return (
     <div
@@ -35,44 +34,51 @@ function LogoCard({ collab }) {
         minWidth: "270px",
         height: "160px",
         flexShrink: 0,
-        borderRadius: "2px", // Sharp edges (Professional look)
+        borderRadius: "8px", 
         position: "relative",
-        background: "#ffffff",
-        border: "1px solid rgba(0,0,0,0.06)",
+        
+        // VIP GLASS DOOR EFFECT
+        background: "linear-gradient(135deg, rgba(26, 25, 77, 0.85) 0%, rgba(26, 25, 77, 0.6) 100%)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        border: "1px solid rgba(255, 255, 255, 0.15)",
+        
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         cursor: "default",
-        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.02)",
+        transition: "all 0.4s cubic-bezier(0.22, 1, 0.36, 1)", 
+        boxShadow: "0 8px 32px rgba(26, 25, 77, 0.15)",
+        overflow: "hidden"
       }}
-      // Inline styles for hover effects mapped via simple standard CSS logic
+      // Smooth Hover Logic
       onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "translateY(-4px)";
-        e.currentTarget.style.boxShadow = `0 12px 30px rgba(98,94,255,0.08)`;
-        e.currentTarget.style.borderColor = `${ACCENT}40`;
+        e.currentTarget.style.transform = "translateY(-6px)";
+        e.currentTarget.style.boxShadow = `0 16px 40px rgba(98,94,255,0.25)`;
+        e.currentTarget.style.borderColor = `rgba(98,94,255,0.5)`; 
+        e.currentTarget.style.background = "linear-gradient(135deg, rgba(26, 25, 77, 0.95) 0%, rgba(26, 25, 77, 0.75) 100%)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = "translateY(0)";
-        e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.02)";
-        e.currentTarget.style.borderColor = "rgba(0,0,0,0.06)";
+        e.currentTarget.style.boxShadow = "0 8px 32px rgba(26, 25, 77, 0.15)";
+        e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
+        e.currentTarget.style.background = "linear-gradient(135deg, rgba(26, 25, 77, 0.85) 0%, rgba(26, 25, 77, 0.6) 100%)";
       }}
     >
       {/* Top Accent Line on Hover */}
       <div
         style={{
           position: "absolute",
-          top: "-1px",
+          top: 0,
           left: 0,
           right: 0,
-          height: "2px",
-          background: ACCENT,
+          height: "3px",
+          background: `linear-gradient(90deg, transparent, ${ACCENT}, transparent)`,
           opacity: 0,
-          transition: "opacity 0.3s ease",
+          transition: "opacity 0.4s ease",
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.opacity = 1)}
-        className="opacity-0 group-hover:opacity-100 transition-opacity"
+        className="group-hover:opacity-100"
       />
 
       {collab.src ? (
@@ -83,33 +89,35 @@ function LogoCard({ collab }) {
             maxWidth: "60%",
             maxHeight: "50%",
             objectFit: "contain",
-            filter: "grayscale(100%) opacity(0.6)",
-            transition: "filter 0.3s ease",
+            filter: "brightness(0) invert(1) opacity(0.6)",
+            transition: "all 0.3s ease",
           }}
-          className="group-hover:filter-none group-hover:opacity-100"
+          className="group-hover:opacity-100 group-hover:scale-105"
         />
       ) : (
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          {/* Minimal Icon */}
+          {/* Glassy Minimal Icon */}
           <div
             style={{
-              width: "40px",
-              height: "40px",
-              borderRadius: "4px",
-              background: "rgba(26,25,77,0.04)",
+              width: "44px",
+              height: "44px",
+              borderRadius: "8px",
+              background: "rgba(255, 255, 255, 0.08)", 
+              border: "1px solid rgba(255, 255, 255, 0.1)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              transition: "background 0.3s ease",
+              transition: "all 0.4s ease",
             }}
-            className="group-hover:bg-indigo-50"
+            className="group-hover:bg-[#625eff] group-hover:border-[#625eff]"
           >
             <span
               style={{
-                fontSize: "16px",
+                fontSize: "18px",
                 fontWeight: 800,
-                color: PRIMARY,
+                color: "#ffffff",
                 fontFamily: "'DM Sans', sans-serif",
+                transition: "color 0.3s ease",
               }}
             >
               {collab.name[0]}
@@ -120,10 +128,10 @@ function LogoCard({ collab }) {
           <div style={{ display: "flex", flexDirection: "column" }}>
             <span
               style={{
-                fontSize: "16px",
+                fontSize: "17px",
                 fontWeight: 700,
                 letterSpacing: "-0.01em",
-                color: PRIMARY,
+                color: "#ffffff", 
                 fontFamily: "'DM Sans', sans-serif",
               }}
             >
@@ -135,7 +143,7 @@ function LogoCard({ collab }) {
                 fontWeight: 600,
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
-                color: "#a0a0a0",
+                color: "rgba(255, 255, 255, 0.6)", 
                 fontFamily: "'DM Sans', sans-serif",
                 marginTop: "2px",
               }}
@@ -153,13 +161,13 @@ function LogoCard({ collab }) {
 export default function CollaboratorsSection() {
   const sectionRef = useRef(null);
 
-  // Framer Motion: Scroll hook (Page scroll ke sath automatically connect ho jayega)
+  // Framer Motion: Scroll hook
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start end", "end start"], // Jab section screen pe aaye tab animation start ho
+    offset: ["start end", "end start"],
   });
 
-  // Parallax mapping: Pehli row Left ki taraf, Doosri row Right ki taraf smoothly slide karegi
+  // Parallax mapping
   const xRow1 = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
   const xRow2 = useTransform(scrollYProgress, [0, 1], ["-20%", "0%"]);
 
@@ -167,7 +175,7 @@ export default function CollaboratorsSection() {
     <section
       ref={sectionRef}
       style={{
-        background: "#fafafc", // Clean minimal background
+        background: "#fafafc", 
         padding: "120px 0",
         overflow: "hidden",
         position: "relative",
@@ -229,7 +237,7 @@ export default function CollaboratorsSection() {
             }}
           >
             Our Elite{" "}
-            <span style={{ color: ACCENT }}>
+            <span style={{ color: "black" }}>
               Collaborators
             </span>
           </h2>
@@ -239,17 +247,7 @@ export default function CollaboratorsSection() {
       {/* ─── Moving Rows Container ─── */}
       <div style={{ display: "flex", flexDirection: "column", gap: "24px", position: "relative" }}>
         
-        {/* Left Fade Overlay (for seamless edge look) */}
-        <div style={{
-          position: "absolute", top: 0, left: 0, width: "15%", height: "100%",
-          background: "linear-gradient(to right, #fafafc, transparent)", zIndex: 10, pointerEvents: "none"
-        }} />
-        
-        {/* Right Fade Overlay */}
-        <div style={{
-          position: "absolute", top: 0, right: 0, width: "15%", height: "100%",
-          background: "linear-gradient(to left, #fafafc, transparent)", zIndex: 10, pointerEvents: "none"
-        }} />
+        {/* Left and Right Fade Overlays removed from here as requested */}
 
         {/* Row 1 (Moves Left as you scroll down) */}
         <motion.div style={{ x: xRow1, display: "flex", gap: "24px", paddingLeft: "24px", width: "max-content" }}>

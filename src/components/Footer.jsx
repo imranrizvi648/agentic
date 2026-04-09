@@ -92,7 +92,7 @@ const Footer = () => {
             <h2 className="text-[13vw] font-black tracking-[-0.06em] text-gray-950 leading-none inline-block relative">
               
               {/* Part 1: "Ag" - Copyright sits under 'g' */}
-              <span className="relative tracking-wide">
+              <span className="relative tracking-normal">
                 Ag
                 {/* translate-y ko kam kar ke [10%] kar diya hai gap khatam karne ke liye */}
                 <span className="absolute bottom-0 left-[100%] -translate-y-4 text-[10px] md:text-[11px] font-bold text-gray-900 uppercase tracking-tighter whitespace-nowrap">
@@ -101,7 +101,7 @@ const Footer = () => {
               </span>
 
               {/* Part 2: "ntix.studi" - Terms sits under 'st' area */}
-              <span className="relative tracking-wide">
+              <span className="relative tracking-normal">
                 enticSen
                 <span className="absolute bottom-0 left-[50%] -translate-x-1/2 -translate-y-4 text-[10px] md:text-[11px] font-bold text-gray-900 uppercase tracking-tighter whitespace-nowrap">
                   <a href="#" className="hover:text-[#1e1b4b] transition-colors">Terms and Conditions</a>
@@ -109,7 +109,7 @@ const Footer = () => {
               </span>
 
               {/* Part 3: "o" - Privacy sits under 'o' */}
-              <span className="relative tracking-wide">
+              <span className="relative tracking-normal">
                 se
                 {/* Asterisk */}
                 <span className="absolute -top-[15%] -right-[35%] text-[5vw] font-light leading-none">*</span>

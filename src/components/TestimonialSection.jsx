@@ -83,9 +83,13 @@ const TestimonialSection = () => {
       {/* ------------------- Cards Section (Infinite Drag) ------------------- */}
       <motion.div 
         drag="x"
-        // Constraints ko bhi usi hisaab se badha diya hai (-90000px tak allow kiya hai)
         dragConstraints={{ right: 0, left: -90000 }} 
         dragElastic={0.1}
+        // YAHAN CHANGES KI HAIN: Drag momentum aur speed control karne ke liye
+        dragTransition={{ 
+          power: 0.1,         // Ye momentum ki taqat ko kam karta hai (pehle zyada tha)
+          timeConstant: 250,  // Ye drag chhodne ke baad jaldi rokne mein madad karta hai
+        }}
         className="flex items-center gap-0 px-20 cursor-grab active:cursor-grabbing relative z-10"
       >
         {infiniteTestimonials.map((item, index) => (
@@ -98,7 +102,7 @@ const TestimonialSection = () => {
               scale: 1.05,
               zIndex: 100,
             }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            transition={{ type: "spring", stiffness: 200, damping: 50 }}
             className={`
               relative min-w-[340px] h-[350px] p-10 flex flex-col justify-between 
               ${item.color} shadow-2xl rounded-sm
