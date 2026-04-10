@@ -83,7 +83,6 @@ function useDispTexture() {
   return dispTex
 }
 
-// ─── Full-screen plane that covers viewport exactly ───
 function FullScreenPlane({ images, current, setCurrent }) {
   const { viewport } = useThree()
   const mesh = useRef()
@@ -94,7 +93,6 @@ function FullScreenPlane({ images, current, setCurrent }) {
   const dispTexture = useDispTexture()
   const uniforms = useRef(null)
 
-  // Cover mode: make textures fill without stretching
   useEffect(() => {
     textures.forEach((tex) => {
       tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping
@@ -110,7 +108,7 @@ function FullScreenPlane({ images, current, setCurrent }) {
       texture2: { value: textures[1] || textures[0] },
       disp: { value: dispTexture || createProceduralDispTexture() },
       dispFactor: { value: 0.0 },
-      effectFactor: { value: 0.6 }, // stronger displacement = more dramatic
+      effectFactor: { value: 0.6 },
     }
   }
 
@@ -138,8 +136,8 @@ function FullScreenPlane({ images, current, setCurrent }) {
 
     gsap.to(uniforms.current.dispFactor, {
       value: 1,
-      duration: 1.2,        // faster than 1.6s
-      ease: 'power2.inOut', // smoother than expo
+      duration: 1.2,
+      ease: 'power2.inOut',
       onUpdate: () => {
         if (matRef.current) matRef.current.uniformsNeedUpdate = true
       },
@@ -152,7 +150,6 @@ function FullScreenPlane({ images, current, setCurrent }) {
     })
   }, [textures, setCurrent])
 
-  // Expose goTo on the mesh so parent can call it
   useEffect(() => {
     if (mesh.current) {
       mesh.current.userData.goTo = goTo
@@ -162,7 +159,6 @@ function FullScreenPlane({ images, current, setCurrent }) {
   if (!uniforms.current) return null
 
   return (
-    // viewport.width/height fills the canvas exactly — cover mode
     <mesh ref={mesh}>
       <planeGeometry args={[viewport.width, viewport.height]} />
       <shaderMaterial
@@ -197,9 +193,19 @@ export default function LiquidSlider() {
     '/webgl-6.webp',
   ]
 
+  // ✅ ONLY ADDITION: Auto-slide every 3 seconds
+  // Resets timer when user manually changes slide
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % images.length)
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [current, images.length])
+  // ✅ END OF ADDITION
+
   const goNext = useCallback(() => {
     const nextIndex = (current + 1) % images.length
-    // We trigger via state — Scene reads current
     setCurrent(nextIndex)
   }, [current, images.length])
 
@@ -223,7 +229,6 @@ export default function LiquidSlider() {
   return (
     <div className="relative h-screen w-full overflow-hidden bg-black">
 
-      {/* ── Canvas fills 100% ── */}
       <div className="absolute inset-0 z-0">
         <Canvas
           camera={{ position: [0, 0, 5], fov: 75 }}
@@ -238,7 +243,6 @@ export default function LiquidSlider() {
         </Canvas>
       </div>
 
-      {/* ── UI Overlay ── */}
       <div className="absolute inset-0 z-10 flex flex-col items-start justify-center px-12 pointer-events-none">
         <h1 className="text-white text-7xl md:text-9xl font-bold uppercase tracking-tighter leading-none">
           Premium <br /> <span style={{ color: '#1e1b4b' }}>Experience</span>
@@ -251,12 +255,10 @@ export default function LiquidSlider() {
         </button>
       </div>
 
-      {/* ── Slide Counter ── */}
       <div className="absolute bottom-10 left-12 z-10 text-white font-mono text-xl">
         0{current + 1} <span className="text-gray-500">/</span> 0{images.length}
       </div>
 
-      {/* ── Prev / Next Buttons ── */}
       <div className="absolute bottom-8 right-12 z-10 flex gap-4">
         <button
           onClick={() => {
@@ -305,7 +307,6 @@ export default function LiquidSlider() {
         </button>
       </div>
 
-      {/* ── Dot Indicators ── */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex gap-2">
         {images.map((_, i) => (
           <button
@@ -322,7 +323,6 @@ export default function LiquidSlider() {
   )
 }
 
-// Proxy to pass current as trigger into Scene's goTo logic
 function SceneProxy({ images, current, setCurrent }) {
   const prevCurrentRef = useRef(current)
   const meshRef = useRef(null)
@@ -340,7 +340,6 @@ function SceneProxy({ images, current, setCurrent }) {
       tex.minFilter = THREE.LinearFilter
       tex.magFilter = THREE.LinearFilter
 
-      // Cover: compute UV scale based on aspect ratios
       const imageAspect = tex.image ? tex.image.width / tex.image.height : 1
       const screenAspect = viewport.width / viewport.height
       if (screenAspect > imageAspect) {
@@ -371,7 +370,6 @@ function SceneProxy({ images, current, setCurrent }) {
     }
   }, [dispTexture])
 
-  // Trigger transition whenever current changes
   useEffect(() => {
     if (prevCurrentRef.current === current) return
     if (!uniforms.current || isAnimating.current) {

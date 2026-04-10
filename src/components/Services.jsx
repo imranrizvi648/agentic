@@ -173,8 +173,8 @@ const ServiceRow = React.forwardRef(function ServiceRow(
           {/* Title — Font Size & Weight Reduced */}
           <h3
             style={{
-              fontSize: "clamp(22px, 3vw, 40px)", // Size thora kam kiya
-              fontWeight: 800, // Weight 900 se 800 kar diya
+              fontSize: "clamp(22px, 3vw, 35px)", // Size thora kam kiya
+              fontWeight: 700, // Weight 900 se 800 kar diya
               letterSpacing: "-0.03em",
               textTransform: "uppercase",
               lineHeight: 1.1,
@@ -258,7 +258,7 @@ const ServiceRow = React.forwardRef(function ServiceRow(
           style={{
             width: "100%",
             overflow: "hidden",
-            borderRadius: "6px",
+            // borderRadius: "6px",
             maxHeight: expanded ? "300px" : "0px",
             opacity: expanded ? 1 : 0,
             transition: "max-height 0.65s cubic-bezier(0.22,1,0.36,1), opacity 0.5s ease",
