@@ -51,7 +51,7 @@ export default function Navbar() {
             : "max-w-[1400px] px-5 md:px-8 py-2.5 bg-[#ffffff10] backdrop-blur-xl border border-white/10" 
         }`}
       >
-        <div className="w-full flex items-center justify-between">
+        <div className="w-full flex items-center justify-between"> 
           {/* Logo & Brand Name Section */}
           <Link href="/" className="flex items-center gap-3 cursor-pointer group z-50">
             <div className="relative w-9 h-9 md:w-10 md:h-10 overflow-hidden">

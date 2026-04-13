@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar"; // <-- Navbar ko yahan import karein
 import Footer from "@/components/Footer";
 import MagneticCursor from "@/components/MagneticCursor";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,14 +28,17 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col ">
         {/* Navbar yahan aayega taaki har page par dikhe */}
+        <SmoothScroll>
         <Navbar /> 
         {/* <MagneticCursor/> */}
-        
+      
         {/* Main content yahan render hoga */}
         <main className="grow">
           {children}
         </main>
+        
         <Footer/>
+        </SmoothScroll>
       </body>
     </html>
   );

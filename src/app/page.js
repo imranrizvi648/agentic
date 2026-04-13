@@ -9,6 +9,7 @@ import ServicesAccordion from '@/components/Services'
 import ImageZoomSection from '@/components/ImageZoomSection'
 import FeaturesNodeSection from '@/components/FeaturesNodeSection'
 import TestimonialSection from '@/components/TestimonialSection'
+import WhoWeAre from '@/components/WhoWeAre'
 
 
 const LiquidSlider = dynamic(() => import('@/components/LiquidSlider'), {
@@ -32,6 +33,7 @@ export default function Page() {
       >
         <LiquidSlider />
       </Suspense>
+      <WhoWeAre/>
 
       <ServicesSection/>
       <CollaboratorsSection/>
