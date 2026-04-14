@@ -23,17 +23,18 @@ export default function Navbar() {
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Mobile Menu State
 
-  // Optimized Scroll Event
+  // IntersectionObserver instead of scroll listener
+  // scroll listener fires setState on every frame = React re-render = scroll lag
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true }); // Passive true for better performance
-    return () => window.removeEventListener("scroll", handleScroll);
+    const sentinel = document.createElement('div');
+    sentinel.style.cssText = 'position:absolute;top:80px;left:0;width:1px;height:1px;pointer-events:none;';
+    document.body.prepend(sentinel);
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsScrolled(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(sentinel);
+    return () => { observer.disconnect(); sentinel.remove(); };
   }, []);
 
   return (
@@ -47,8 +48,8 @@ export default function Navbar() {
       <div 
         className={`w-full flex flex-col items-center justify-between transition-[max-width,background-color,border-radius,padding] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-[0_8px_32px_0_rgba(0,0,0,0.25)] ${
           isScrolled
-            ? "max-w-[100%] px-6 md:px-8 py-2.5 bg-[#1a1625]/95 backdrop-blur-2xl border-b border-white/10 rounded-none" 
-            : "max-w-[1400px] px-5 md:px-8 py-2.5 bg-[#ffffff10] backdrop-blur-xl border border-white/10" 
+            ? "max-w-[100%] px-6 md:px-8 py-2.5 bg-[#1a1625] border-b border-white/10 rounded-none" 
+            : "max-w-[1400px] px-5 md:px-8 py-2.5 bg-[#1a1625]/80 border border-white/10" 
         }`}
       >
         <div className="w-full flex items-center justify-between"> 

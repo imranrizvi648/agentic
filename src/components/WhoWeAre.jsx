@@ -1,21 +1,16 @@
 "use client";
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function WhoWeAre() {
   const containerRef = useRef(null);
   const textRef = useRef(null);
   const imageRef = useRef(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let ctx = gsap.context(() => {
       
-      // FIX 1: Tell ScrollTrigger to refresh and sync with Lenis
-      ScrollTrigger.refresh();
-
       // 1. Reveal Heading
       gsap.from(textRef.current, {
         y: 60, // Reduced from 100 to make it feel "lighter"
@@ -37,7 +32,7 @@ export default function WhoWeAre() {
           trigger: containerRef.current,
           start: "top bottom",
           end: "bottom top",
-          scrub: true,
+          scrub: 1.5,
           invalidateOnRefresh: true, // Crucial for responsive lag
         },
       });

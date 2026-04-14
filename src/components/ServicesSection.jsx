@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useMemo, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { motion } from "framer-motion";
 import * as THREE from "three";
 import { Code2, Globe, Activity, ArrowRight } from "lucide-react";
@@ -53,18 +53,16 @@ function FloatingShape({ type, hovered }) {
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (groupRef.current) {
-      // Smooth, slow, professional rotation
       groupRef.current.rotation.x = t * 0.15;
       groupRef.current.rotation.y = t * 0.2;
-      groupRef.current.position.y = Math.sin(t * 1.5) * 0.05; // Very subtle float
+      groupRef.current.position.y = Math.sin(t * 1.5) * 0.05;
     }
-    
-    // Slight scale up on hover
     const targetScale = hovered ? 1.05 : 1.0;
     if (meshRef.current) {
       meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
       wireRef.current.scale.copy(meshRef.current.scale);
     }
+    state.invalidate(); // Required for frameloop="demand" to keep animating
   });
 
   return (
@@ -154,7 +152,8 @@ function ServiceCard({ service, index }) {
       }}>
         <Canvas
           camera={{ position: [0, 0, 4.5], fov: 45 }}
-          gl={{ alpha: true, antialias: true }}
+          gl={{ alpha: true, antialias: false, powerPreference: "low-power" }}
+          frameloop="demand"
           style={{ background: "transparent" }}
         >
           <CardScene type={service.geometry} hovered={hovered} />

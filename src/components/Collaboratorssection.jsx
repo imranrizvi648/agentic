@@ -38,9 +38,7 @@ function LogoCard({ collab }) {
         position: "relative",
         
         // VIP GLASS DOOR EFFECT
-        background: "linear-gradient(135deg, rgba(26, 25, 77, 0.85) 0%, rgba(26, 25, 77, 0.6) 100%)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
+        background: "linear-gradient(135deg, #1a194d 0%, #1a194d 100%)",
         border: "1px solid rgba(255, 255, 255, 0.15)",
         
         display: "flex",

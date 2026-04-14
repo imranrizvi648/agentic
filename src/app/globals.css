@@ -12,65 +12,25 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* --- CORE SETUP --- */
 html {
-  /* Crucial for Lenis: Prevents the browser from fighting the script */
-  scroll-behavior: auto !important;
-}
-
-html.lenis {
-  height: auto;
+  /* Native smooth scroll — zero JS overhead */
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh;
-  /* overscroll-behavior-y: none stops the 'bounce' glitch in Chrome */
-  overscroll-behavior-y: none; 
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- LENIS REQUIRED STYLES --- */
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
-}
-
-/* --- PERFORMANCE OPTIMIZATIONS --- */
-
-/* FIX: Removed 'will-change' from everything. 
-   Only use it on elements that are actually moving. 
-*/
 canvas, img, video {
   max-width: 100%;
   height: auto;
-  /* content-visibility: auto tells the browser not to paint 
-     the image until it's close to the screen */
-  content-visibility: auto;
 }
 
-/* FIX: Hardware acceleration should be handled by GSAP 
-   internally, but this is a 'light' way to help.
-*/
-.lenis-scrolling {
-  /* Disables hover effects while scrolling for better FPS */
-  pointer-events: none; 
-}
-
-/* Smooth out the Sticky Navbar without overloading GPU */
 .sticky {
   z-index: 50;
-  /* Do not use backdrop-blur here if you still feel lag */
 }

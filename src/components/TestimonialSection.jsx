@@ -19,7 +19,7 @@ const testimonials = [
 const TestimonialSection = () => {
   // PRO HACK: Array ko 30 dafa copy kar diya hai! (10 reviews * 30 = 300 reviews)
   // Ab user jitna marzi drag kare, list rukegi nahi aur circle ki tarah feel hogi.
-  const infiniteTestimonials = Array(30).fill(testimonials).flat();
+  const infiniteTestimonials = Array(6).fill(testimonials).flat(); // 60 cards = enough for drag
 
   return (
     <section className="bg-black py-10 overflow-hidden relative min-h-200 flex flex-col justify-center">
@@ -45,7 +45,7 @@ const TestimonialSection = () => {
         </div>
         
         {/* Glow fix */}
-        <div className="absolute w-[50%] h-[50%] bg-white/5 blur-[100px] rounded-full"></div>
+        <div className="absolute w-[50%] h-[50%] bg-white/5 opacity-0 rounded-full"></div>
 
         {/* Injected Animation Keyframes */}
         <style dangerouslySetInnerHTML={{ __html: `
@@ -62,7 +62,7 @@ const TestimonialSection = () => {
           Client Reviews
         </h2>
 
-        <div className="flex items-center gap-4 bg-[#111]/80 backdrop-blur-md border border-white/10 rounded-full py-3 px-8 shadow-2xl">
+        <div className="flex items-center gap-4 bg-[#111] border border-white/10 rounded-full py-3 px-8 shadow-2xl">
           <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
             <span className="text-black font-black text-xl italic">C</span>
           </div>
@@ -83,7 +83,7 @@ const TestimonialSection = () => {
       {/* ------------------- Cards Section (Infinite Drag) ------------------- */}
       <motion.div 
         drag="x"
-        dragConstraints={{ right: 0, left: -90000 }} 
+        dragConstraints={{ right: 0, left: -18000 }} 
         dragElastic={0.1}
         // YAHAN CHANGES KI HAIN: Drag momentum aur speed control karne ke liye
         dragTransition={{ 
@@ -106,7 +106,7 @@ const TestimonialSection = () => {
             className={`
               relative min-w-85 h-87.5 p-10 flex flex-col justify-between 
               ${item.color} shadow-2xl rounded-sm
-              -ml-20 first:ml-0 will-change-transform
+              -ml-20 first:ml-0
             `}
           >
             <p className={`text-[17px] font-medium leading-[1.6] ${item.text === 'white' ? 'text-white' : 'text-gray-800'}`}>

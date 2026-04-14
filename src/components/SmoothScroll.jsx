@@ -1,38 +1,8 @@
 "use client";
-import { ReactLenis, useLenis } from "lenis/react"; // Updated import path
-import { useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+// Lenis removed — site has 4x Three.js canvases + Framer Motion + GSAP ScrollTrigger.
+// Running Lenis on top of all that exceeds the frame budget and causes lag on every section.
+// CSS scroll-behavior handles the smoothness with zero JS overhead.
 export default function SmoothScroll({ children }) {
-  // Register ScrollTrigger (good practice to do this once)
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-  }, []);
-
-  // Connect GSAP ScrollTrigger to Lenis frame updates
-  useLenis((lenis) => {
-    ScrollTrigger.update();
-  });
-
-  useEffect(() => {
-    ScrollTrigger.config({ ignoreMobileResize: true });
-  }, []);
-
-  return (
-    <ReactLenis 
-      root 
-      options={{ 
-        lerp: 0.1,         
-        duration: 1.5,     
-        smoothWheel: true,
-        orientation: 'vertical',
-        gestureOrientation: 'vertical',
-        // In newer versions, 'smoothTouch' is often handled via 'syncTouch'
-        syncTouch: false, 
-      }}
-    >
-      {children}
-    </ReactLenis>
-  );
+  return <>{children}</>;
 }
