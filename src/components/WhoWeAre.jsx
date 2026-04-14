@@ -3,55 +3,81 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 export default function WhoWeAre() {
   const containerRef = useRef(null);
   const textRef = useRef(null);
   const imageRef = useRef(null);
+  const imageWrapperRef = useRef(null);
 
   useEffect(() => {
     let ctx = gsap.context(() => {
       
-      // 1. Reveal Heading
+      // 1. Text Reveal
       gsap.from(textRef.current, {
-        y: 60, // Reduced from 100 to make it feel "lighter"
+        y: 50,
         opacity: 0,
-        duration: 1,
-        ease: "power3.out",
+        duration: 1.5,
+        ease: "power4.out",
         scrollTrigger: {
           trigger: textRef.current,
           start: "top 90%",
-          toggleActions: "play none none reverse", // Better performance
         },
       });
 
-      // 2. Parallax Image
-      gsap.to(imageRef.current, {
-        y: "-15%", // Use percentage for smoother calculation
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.5,
-          invalidateOnRefresh: true, // Crucial for responsive lag
-        },
+      // 2. THE MAGNETIC VERTICAL SLIDE
+      // We use a large Y-offset (30%) to make the movement very noticeable
+      gsap.fromTo(imageRef.current, 
+        { y: "-25%" }, // Starts high
+        {
+          y: "25%",     // Ends low
+          ease: "none",
+          scrollTrigger: {
+            trigger: imageWrapperRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.8, // This creates the "Magnetic" weight/lag
+          },
+        }
+      );
+
+      // 3. VELOCITY SKEW (The "Fluid" Secret)
+      // This makes the image tilt slightly based on how fast you scroll
+      let proxy = { skew: 0 },
+          skewSetter = gsap.quickSetter(imageRef.current, "skewY", "deg"),
+          clamp = gsap.utils.clamp(-8, 8); 
+
+      ScrollTrigger.create({
+        onUpdate: (self) => {
+          let skew = clamp(self.getVelocity() / -400);
+          if (Math.abs(skew) > Math.abs(proxy.skew)) {
+            proxy.skew = skew;
+            gsap.to(proxy, {
+              skew: 0,
+              duration: 1,
+              ease: "power3",
+              overwrite: true,
+              onUpdate: () => skewSetter(proxy.skew)
+            });
+          }
+        }
       });
 
-      // 3. Stats Counting
+      // 4. Counter Logic
       gsap.utils.toArray(".stat-number").forEach((stat) => {
         const targetValue = parseInt(stat.getAttribute("data-value"));
-        gsap.fromTo(stat, 
-          { innerText: 0 }, 
-          { 
-            innerText: targetValue, 
-            duration: 1.5,
-            snap: { innerText: 1 },
-            scrollTrigger: {
-              trigger: stat,
-              start: "top 90%",
-            } 
+        gsap.to(stat, {
+          innerText: targetValue,
+          duration: 2,
+          snap: { innerText: 1 },
+          scrollTrigger: {
+            trigger: stat,
+            start: "top 90%",
           }
-        );
+        });
       });
 
     }, containerRef);
@@ -60,65 +86,54 @@ export default function WhoWeAre() {
   }, []);
 
   return (
-    <section ref={containerRef} className="bg-white py-20 lg:py-32 px-6 md:px-12 lg:px-20 max-w-[1600px] mx-auto overflow-hidden">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-12 lg:mb-16 items-start">
-        <div className="lg:col-span-4 flex items-start pt-4 sticky top-24 z-10">
-          <div className="flex items-center text-[11px] font-semibold tracking-[0.15em] text-neutral-600 uppercase">
-            <span className="w-1.5 h-1.5 bg-[#dc1e25] rounded-full mr-3"></span>
-            Who We Are
+    <section ref={containerRef} className="bg-white py-24 lg:py-40 px-6 md:px-12 lg:px-20 max-w-[1600px] mx-auto overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20 items-start">
+        <div className="lg:col-span-4 sticky top-32">
+          <div className="flex items-center text-[10px] font-bold tracking-[0.2em] text-neutral-400 uppercase">
+            <span className="w-2 h-2 bg-[#dc1e25] rounded-full mr-3 animate-pulse"></span>
+            Agency Profile
           </div>
         </div>
         <div className="lg:col-span-8">
-          {/* Added overflow-hidden to the wrapper to prevent jitter */}
-          <div className="overflow-hidden">
-             <h2 ref={textRef} className="text-[2.25rem] md:text-[3.25rem] lg:text-[40px] leading-[1.05] tracking-tight font-bold text-[#111111]">
-               An independent web design and branding agency in Manchester set up in 2010 who care, build relationships, have industry experience, and win awards.
-             </h2>
-          </div>
+          <h2 ref={textRef} className="text-[2.5rem] md:text-[4rem] lg:text-[52px] leading-[1.1] tracking-tighter font-bold text-[#111]">
+            We build high-end digital experiences that care, connect, and win.
+          </h2>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start relative">
-        <div className="hidden lg:flex lg:col-span-4 items-end pb-8">
-          <svg width="140" height="140" viewBox="0 0 100 100" fill="none" className="text-black ml-4 animate-[spin_20s_linear_infinite]">
-            <path d="M50 5V95M5 50H95M18 18L82 82M18 82L82 18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-          </svg>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="hidden lg:block lg:col-span-4">
+           {/* Decorative Star/Asterisk */}
+           <div className="w-32 h-32 border-2 border-black rounded-full flex items-center justify-center animate-[spin_10s_linear_infinite]">
+             <span className="text-4xl">★</span>
+           </div>
         </div>
 
-        {/* FIX 2: Optimized Parallax Container */}
-        <div className="lg:col-span-4 self-start overflow-hidden rounded-sm">
+        {/* MAGNETIC IMAGE WRAPPER */}
+        <div ref={imageWrapperRef} className="lg:col-span-4 overflow-hidden rounded-lg bg-neutral-200">
           <div 
             ref={imageRef}
-            className="w-full aspect-[3/4] bg-neutral-100 bg-cover bg-center scale-125 will-change-transform" 
-            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1000&auto=format&fit=crop')" }}
+            className="w-full aspect-[3/4] bg-cover bg-center scale-150 will-change-transform" 
+            style={{ 
+              backgroundImage: "url('https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1000&auto=format&fit=crop')",
+              // scale-150 is important so there is "extra" image to show during the slide
+            }}
           ></div>
         </div>
 
-        <div className="lg:col-span-4 flex flex-col justify-center lg:pl-6 xl:pl-8 pb-20">
-          <div className="flex -space-x-3 mb-5 mt-8 lg:mt-0">
-            {[11, 12, 33].map((img) => (
-               <img key={img} src={`https://i.pravatar.cc/150?img=${img}`} alt="Avatar" className="w-11 h-11 rounded-full border-[2px] border-white object-cover" />
-            ))}
-            <div className="w-11 h-11 rounded-full border-[2px] border-white bg-[#111111] text-white flex items-center justify-center text-lg z-10 relative cursor-pointer hover:scale-110 transition-all">
-              +
-            </div>
-          </div>
-          <p className="text-[14px] leading-relaxed text-neutral-600 max-w-xs mb-8">
-            Driven by a passion for innovation, we specialize in delivering top-quality design solutions.
+        <div className="lg:col-span-4 flex flex-col gap-8 lg:pl-10">
+          <p className="text-lg text-neutral-600 leading-relaxed">
+            Independent branding & web agency established in 2010. We don't just build websites; we build industry leaders.
           </p>
-          <hr className="border-neutral-200 mb-8" />
-          <div className="flex gap-10 xl:gap-14">
+          
+          <div className="flex gap-12 border-t border-neutral-100 pt-8">
             <div>
-              <h3 className="text-6xl text-[#111111] tracking-tighter mb-3">
-                <span className="stat-number" data-value="98">0</span>%
-              </h3>
-              <p className="text-[13px] text-neutral-500 leading-snug">Satisfied Clients</p>
+              <h3 className="text-6xl font-black text-[#111] tracking-tighter"><span className="stat-number" data-value="98">0</span>%</h3>
+              <p className="text-xs uppercase tracking-widest text-neutral-400 mt-2">Success Rate</p>
             </div>
             <div>
-              <h3 className="text-6xl text-[#111111] tracking-tighter mb-3">
-                <span className="stat-number" data-value="125">0</span>+
-              </h3>
-              <p className="text-[13px] text-neutral-500 leading-snug">Projects Done</p>
+              <h3 className="text-6xl font-black text-[#111] tracking-tighter"><span className="stat-number" data-value="125">0</span>+</h3>
+              <p className="text-xs uppercase tracking-widest text-neutral-400 mt-2">Awards Won</p>
             </div>
           </div>
         </div>

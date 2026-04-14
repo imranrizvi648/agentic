@@ -1,8 +1,31 @@
 "use client";
 
-// Lenis removed — site has 4x Three.js canvases + Framer Motion + GSAP ScrollTrigger.
-// Running Lenis on top of all that exceeds the frame budget and causes lag on every section.
-// CSS scroll-behavior handles the smoothness with zero JS overhead.
+import { useEffect } from "react";
+import Lenis from "lenis";
+
 export default function SmoothScroll({ children }) {
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: "vertical",
+      gestureOrientation: "vertical",
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+
   return <>{children}</>;
 }

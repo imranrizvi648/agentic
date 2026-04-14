@@ -13,8 +13,14 @@
 }
 
 html {
-  /* Native smooth scroll — zero JS overhead */
-  scroll-behavior: smooth;
+  /* FIX 1: Must be 'auto' — 'smooth' conflicts with Lenis and blocks scroll */
+  scroll-behavior: auto !important;
+}
+
+/* FIX 2: Lenis requires html and body to have height:auto, not fixed height */
+html.lenis,
+html.lenis body {
+  height: auto;
 }
 
 body {
@@ -24,6 +30,23 @@ body {
   overscroll-behavior-y: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Required Lenis classes */
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 canvas, img, video {

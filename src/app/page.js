@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
+import MagneticGallery from '@/components/MagneticGallery'
 
 // Canvas loads separately — but hero TEXT renders immediately below
 const LiquidSliderCanvas = dynamic(() => import('@/components/LiquidSlider'), {
@@ -66,9 +67,11 @@ export default function Page() {
       <LazySection minHeight="600px"><ServicesSection /></LazySection>
       <LazySection minHeight="500px"><CollaboratorsSection /></LazySection>
       <LazySection minHeight="600px"><ServicesAccordion /></LazySection>
-      <LazySection minHeight="750px"><ImageZoomSection /></LazySection>
+       
+      {/* <LazySection minHeight="750px"><ImageZoomSection /></LazySection> */}
       <LazySection minHeight="600px"><FeaturesNodeSection /></LazySection>
       <LazySection minHeight="500px"><TestimonialSection /></LazySection>
+     
     </main>
   )
 }
