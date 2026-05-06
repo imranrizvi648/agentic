@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script"; // 1. Ye import zaroori hai
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -33,6 +34,13 @@ export default function RootLayout({ children }) {
           </main>
           <Footer />
         </SmoothScroll>
+      
+        {/* 2. Ye hai Next.js ka sahi tarika script lagane ka */}
+        <Script 
+          src="https://api.aos.aithentic.co/cse/widget/wid_0fa18bcda61c4a9b.js"
+          strategy="lazyOnload"
+        />
+
       </body>
     </html>
   );

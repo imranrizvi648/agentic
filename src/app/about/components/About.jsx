@@ -1,57 +1,61 @@
-import React from 'react';
-import Image from 'next/image';
 
-const AgntixStudioSection = () => {
-  // Using a different temporary image to ensure it loads
-  const studioImagePath = 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop'; 
+'use client';
+import { Inter, Montserrat } from 'next/font/google';
 
+const inter = Inter({ subsets: ['latin'] });
+const montserrat = Montserrat({ subsets: ['latin'], weight: ['800', '900'] });
+
+const AboutStudio = () => {
   return (
-    // 'mt-40' is the "Move out of the way of the Navbar" fix
-    <section className="relative w-full bg-white mt-40 pb-24 px-10 font-sans">
-      <div className="max-w-[1400px] mx-auto">
+    // Added pt-32 to clear your fixed navbar
+    <div className={`min-h-screen bg-white flex items-center justify-center p-4 pt-32 ${inter.className}`}>
+      
+      {/* Main Card - Increased min-height to prevent squashing */}
+      <div className="bg-white p-10 shadow-[0_8px_30px_rgba(0,0,0,0.12)] max-w-300 w-full border border-gray-100 flex flex-col md:flex-row gap-10 min-h-125 relative z-10">
         
-        {/* Navigation Buttons Row */}
-        <div className="flex justify-end gap-4 mb-20">
-          <div className="flex items-center gap-3 px-6 py-3 rounded-full border border-gray-200 bg-white shadow-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#EE3E41]"></span>
-            </span>
-            <span className="text-sm font-semibold text-gray-400">Loading...</span>
-          </div>
-          <button className="px-8 py-3 rounded-full border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-all">
-            Introduction
-          </button>
+        {/* Left Side (Image Block) */}
+        <div className="flex-1 relative  overflow-hidden min-h-100">
+          {/* Using a standard img tag first to verify visibility */}
+          <img 
+            src="/about-us-2-4.webp" 
+            alt="Team"
+            className="absolute inset-0 w-full h-full object-cover"
+            onError={(e) => {
+              console.error("Image failed to load in img tag");
+              e.target.src = "https://via.placeholder.com/800x600?text=Image+Not+Found";
+            }}
+          />
         </div>
 
-        {/* Content Split */}
-        <div className="flex flex-col lg:flex-row items-center gap-16">
-          
-          {/* Left Side: The Image */}
-          <div className="relative w-full lg:w-[55%] aspect-[1.5/1] overflow-hidden rounded-lg shadow-xl bg-gray-100">
-            <Image 
-              src={studioImagePath} 
-              alt="Agntix Studio"
-              fill
-              className="object-cover"
-              unoptimized
-            />
-          </div>
+        {/* Right Side */}
+       <div className="flex-[1.2] flex flex-col pt-4">
+  {/* Buttons Area */}
+  <div className="flex justify-end gap-3 ">
+    <button className="px-6 py-2 rounded-full border border-gray-200 text-gray-500 text-sm font-medium">
+      Loading...
+    </button>
+    <button className="px-6 py-2 rounded-full border border-gray-200 text-gray-500 text-sm font-medium">
+      Introduction
+    </button>
+  </div>
 
-          {/* Right Side: The Big Red Text */}
-          <div className="w-full lg:w-[45%] flex flex-col items-start">
-            <h2 className="text-[#EE3E41] text-xl md:text-2xl font-black tracking-[0.15em] mb-2 uppercase">
-              ABOUT AGNTIX
-            </h2>
-            <h1 className="text-[#EE3E41] text-[12vw] lg:text-[9rem] font-[1000] leading-[0.8] tracking-tighter uppercase">
-              OUR<br />STUDIO
-            </h1>
-          </div>
-
-        </div>
+  {/* Typography Area */}
+  <div className="grow flex items-start">
+    <div className="pl-4">
+      <span className="block text-[#1e1b4b] text-[1.2rem] font-black uppercase tracking-tighter mb-1">
+        About AGENTICSENSE
+      </span>
+      
+      <h1 className={`${montserrat.className}  text-[clamp(40px,5vw,90px)] font-extrabold text-[#1e1b4b] leading-[0.9] tracking-tighter uppercase`}>
+        <span className="block text-[clamp(60px,10vw,130px)]">OUR</span>
+        <span className="block text-[clamp(60px,10vw,130px)] -mt-2">STUDIO</span>
+      </h1>
+    </div>
+  </div>
+</div>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default AgntixStudioSection;
+export default AboutStudio;
