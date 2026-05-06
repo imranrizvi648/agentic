@@ -35,9 +35,9 @@ export default function RootLayout({ children }) {
           <Footer />
         </SmoothScroll>
       
-        {/* 2. Ye hai Next.js ka sahi tarika script lagane ka */}
+      
         <Script 
-          src="https://api.aos.aithentic.co/cse/widget/wid_0fa18bcda61c4a9b.js"
+          src="http://192.168.0.21:8100/widget/wid_14b6a892072541ab.js"
           strategy="lazyOnload"
         />
 
