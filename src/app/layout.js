@@ -9,8 +9,9 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata = {
-  title: "Ryno - AI Agency",
+  title: "AI Agency",
   description: "Premium AI Experience",
+  icons:"/iconeee.png"
 };
 
 export default function RootLayout({ children }) {
@@ -37,7 +38,7 @@ export default function RootLayout({ children }) {
       
       
         <Script 
-          src="https://api.aos.aithentic.co/cse/widget/wid_0fa18bcda61c4a9b.js"
+          src="http://192.168.0.21:8100/widget/wid_14b6a892072541ab.js"
           strategy="lazyOnload"
         />
 
