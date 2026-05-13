@@ -37,10 +37,10 @@ export default function RootLayout({ children }) {
         </SmoothScroll>
       
       
-        <Script 
-         s.src='http://192.168.0.21:8100/widget/wid_809b418c1ae44350.js;
-          strategy="lazyOnload"
-        />
+       <Script 
+  src="http://192.168.0.21:8100/widget/wid_809b418c1ae44350.js"
+  strategy="lazyOnload"
+/>
 
       </body>
     </html>
