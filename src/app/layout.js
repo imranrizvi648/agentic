@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
       
       
        <Script 
-  src="http://192.168.0.30:8100/widget/wid_809b418c1ae44350.js"
+  src="https://staging.cse.agenticsense.co/cse/widget/wid_a586b50180a54276.js"
   strategy="lazyOnload"
 />
 
