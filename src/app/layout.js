@@ -38,7 +38,8 @@ export default function RootLayout({ children }) {
       
       
        <Script 
-  src="http://192.168.0.30:8100/widget/wid_db08e0f9c9df4b3d.js"
+  src="https://api.aos.aithentic.co/cse/widget/wid_375495b658ac4e73.js"
+
   strategy="lazyOnload"
 />
 
