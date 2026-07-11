@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
       
       
        <Script 
-  src="http://203.130.9.165:18086/widget/wid_ced0d9c37d3141af.js"
+  src="http://192.168.0.59:18086/widget/wid_ced0d9c37d3141af.js"
 
   strategy="lazyOnload"
 />
